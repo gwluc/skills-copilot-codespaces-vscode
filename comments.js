@@ -1,21 +1,31 @@
-// create web server
+// Create web server
 
-const path = require("path");
-// import fs
-const fs = require("fs");
-// import moment
-const moment = require("moment");
-// import mongoose
-const mongoose = require("mongoose");
-// import comment model
-const Comment = require("../models/comment");
-// import user model
-const User = require("../models/user");
-// import post model
-const Post = require("../models/post");
-// import express-validator
-const { body, validationResult } = require("express-validator");
-// import sanitize
-const { sanitizeBody } = require("express-validator");
-// import async
-const async = require("async");
+// Import modules
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+// Create express app
+const app = express();
+
+// Use body parser to parse JSON body
+app.use(bodyParser.json());
+
+// Enable CORS
+app.use(cors());
+
+// Array of comments
+const comments = [];
+
+// Handle GET /comments
+app.get('/comments', (req, res) => {
+  // Send back comments array
+  res.json(comments);
+});
+
+// Handle POST /comments
+app.post('/comments', (req, res) => {
+  // Create new comment
+  const comment = {
+    id: comments.length,
+    text: req.body.text,
